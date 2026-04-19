@@ -52,8 +52,9 @@ const medicineDB = {
 };
 
 const aliases = {
-  // mancozeb
-  'मैनकोजेब': 'mancozeb', 'मैन्कोजेब': 'mancozeb', 'mancozeb': 'mancozeb', 'm-45': 'mancozeb', 'dithane': 'mancozeb',
+  // mancozeb — GPT writes ऐ+न or ए+ं or ए+न interchangeably
+  'मैनकोजेब': 'mancozeb', 'मैन्कोजेब': 'mancozeb', 'मेंकोजेब': 'mancozeb', 'मेन्कोजेब': 'mancozeb', 'मेनकोजेब': 'mancozeb',
+  'mancozeb': 'mancozeb', 'm-45': 'mancozeb', 'dithane': 'mancozeb',
   'इंडोफिल': 'mancozeb', 'indofil': 'mancozeb', 'इन्डोफिल': 'mancozeb',
   // imidacloprid
   'इमिडाक्लोप्रिड': 'imidacloprid', 'imidacloprid': 'imidacloprid', 'confidor': 'imidacloprid', 'कॉन्फिडोर': 'imidacloprid',
@@ -61,8 +62,9 @@ const aliases = {
   'प्रोपिकोनाज़ोल': 'propiconazole', 'propiconazole': 'propiconazole', 'tilt': 'propiconazole', 'टिल्ट': 'propiconazole',
   // carbendazim
   'कार्बेन्डाजिम': 'carbendazim', 'carbendazim': 'carbendazim', 'bavistin': 'carbendazim', 'बाविस्टिन': 'carbendazim',
-  // copper oxychloride
-  'कॉपर ऑक्सीक्लोराइड': 'copper oxychloride', 'copper oxychloride': 'copper oxychloride', 'blitox': 'copper oxychloride',
+  // copper oxychloride — GPT sometimes writes ऑक्सी क्लोराइड with a space
+  'कॉपर ऑक्सीक्लोराइड': 'copper oxychloride', 'कॉपर ऑक्सी क्लोराइड': 'copper oxychloride',
+  'copper oxychloride': 'copper oxychloride', 'blitox': 'copper oxychloride', 'कॉपर ऑक्सी': 'copper oxychloride',
   // chlorpyrifos
   'क्लोरपाइरीफॉस': 'chlorpyrifos', 'chlorpyrifos': 'chlorpyrifos', 'dursban': 'chlorpyrifos',
   // neem oil
@@ -73,8 +75,9 @@ const aliases = {
   'इमामेक्टिन': 'emamectin', 'emamectin': 'emamectin', 'proclaim': 'emamectin',
   // trichoderma
   'ट्राइकोडर्मा': 'trichoderma', 'trichoderma': 'trichoderma',
-  // metalaxyl+mancozeb combo — maps to mancozeb
-  'मेटलेक्सिल': 'mancozeb', 'metalaxyl': 'mancozeb', 'ridomil': 'mancozeb', 'रिडोमिल': 'mancozeb',
+  // metalaxyl+mancozeb combo — maps to mancozeb; GPT spells मेटालेक्जिल or मेटलेक्सिल
+  'मेटलेक्सिल': 'mancozeb', 'मेटालेक्जिल': 'mancozeb', 'मेटालेक्सिल': 'mancozeb',
+  'metalaxyl': 'mancozeb', 'ridomil': 'mancozeb', 'रिडोमिल': 'mancozeb', 'रिडोमिल गोल्ड': 'mancozeb',
 };
 
 function normalizeHindi(text) {
