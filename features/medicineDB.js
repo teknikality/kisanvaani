@@ -77,10 +77,16 @@ const aliases = {
   'मेटलेक्सिल': 'mancozeb', 'metalaxyl': 'mancozeb', 'ridomil': 'mancozeb', 'रिडोमिल': 'mancozeb',
 };
 
+function normalizeHindi(text) {
+  // Remove Devanagari nukta (U+093C) so ज़→ज, क़→क, etc.
+  // This ensures मैनकोज़ेब and मैनकोजेब both match
+  return text.replace(/\u093C/g, '').toLowerCase();
+}
+
 function findMedicine(diagnosisText) {
-  const lowerText = diagnosisText.toLowerCase();
+  const normalized = normalizeHindi(diagnosisText);
   for (const [alias, key] of Object.entries(aliases)) {
-    if (lowerText.includes(alias.toLowerCase())) {
+    if (normalized.includes(normalizeHindi(alias))) {
       return medicineDB[key] || null;
     }
   }
