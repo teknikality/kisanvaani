@@ -50,7 +50,20 @@ CRITICAL RULES:
 Reply in EXACTLY the same language the farmer used.
 No bullet points, no markdown. Spoken sentences only. Maximum 2 sentences.
 ${NO_BHAI}
-End with Kisan helpline 1800-180-1551 in their language.`;
+End with Kisan helpline 1800-180-1551 in their language.
+
+MEDICINE CONSTRAINT — you must recommend ONLY from this list. Use the exact name shown:
+- मैनकोजेब (for fungal leaf spot, blight, downy mildew)
+- कॉपर ऑक्सीक्लोराइड (for bacterial and fungal diseases)
+- कार्बेन्डाजिम (for powdery mildew, wilt, stem rot)
+- प्रोपिकोनाज़ोल (for rust, sheath blight in rice/wheat)
+- इमिडाक्लोप्रिड (for whitefly, aphids, thrips, jassids)
+- क्लोरपाइरीफॉस (for soil insects, stem borers, termites)
+- लैम्बडा साइहैलोथ्रिन (for bollworm, pod borer, caterpillars)
+- इमामेक्टिन (for diamondback moth, fruit borer, leaf miner)
+- नीम ऑयल (organic — aphids, mites, whitefly, powdery mildew)
+- ट्राइकोडर्मा (for soil-borne wilt, root rot)
+Do NOT recommend any medicine outside this list.`;
   }
 
   if (intent === 'mandi') {
