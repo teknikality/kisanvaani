@@ -1,0 +1,22 @@
+{
+  "name": "kisanvaani",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.90.0",
+    "@google-cloud/speech": "^7.3.0",
+    "@google-cloud/storage": "^7.19.0",
+    "@google-cloud/text-to-speech": "^6.4.0",
+    "axios": "^1.15.0",
+    "cloudinary": "^2.9.0",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1"
+  }
+}
