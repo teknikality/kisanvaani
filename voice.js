@@ -23,6 +23,28 @@ async function downloadAudio(mediaId) {
   }
 }
 
+async function downloadImage(mediaId) {
+  try {
+    const metaRes = await axios.get(
+      `https://graph.facebook.com/v22.0/${mediaId}`,
+      { headers: { Authorization: `Bearer ${process.env.WHATSAPP_TOKEN}` } }
+    );
+
+    const { url, mime_type: mimeType } = metaRes.data;
+
+    const imageRes = await axios.get(url, {
+      headers: { Authorization: `Bearer ${process.env.WHATSAPP_TOKEN}` },
+      responseType: 'arraybuffer',
+    });
+
+    const buffer = Buffer.from(imageRes.data);
+    console.log(`[IMAGE] Downloaded ${buffer.length} bytes mime=${mimeType}`);
+    return { buffer, mimeType };
+  } catch (e) {
+    throw new Error('DOWNLOAD_FAILED');
+  }
+}
+
 async function transcribe(audioBuffer) {
   const credentials = JSON.parse(process.env.GOOGLE_APPLICATION_CREDENTIALS);
   const client = new SpeechClient({ credentials });
@@ -145,7 +167,45 @@ async function sendAudioMessage(to, audioUrl) {
   console.log(`[SEND] Audio sent to ${to}`);
 }
 
-module.exports = { downloadAudio, transcribe, synthesize, uploadAudio, sendAudioMessage };
+async function getMedicineSignedUrl(filename) {
+  const credentials = JSON.parse(process.env.GOOGLE_APPLICATION_CREDENTIALS);
+  const storage = new Storage({ credentials, projectId: credentials.project_id });
+  const file = storage.bucket(process.env.GCS_BUCKET_NAME).file(filename);
+  const [signedUrl] = await file.getSignedUrl({
+    action: 'read',
+    expires: Date.now() + 15 * 60 * 1000,
+  });
+  return signedUrl;
+}
+
+async function sendImageMessage(to, imageUrl, caption) {
+  try {
+    const response = await axios.post(
+      `https://graph.facebook.com/v22.0/${process.env.WHATSAPP_PHONE_ID}/messages`,
+      {
+        messaging_product: 'whatsapp',
+        to,
+        type: 'image',
+        image: { link: imageUrl, caption: caption || '' },
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.WHATSAPP_TOKEN}`,
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+    console.log(`[IMAGE SENT] status=${response.status} to=${to}`);
+    if (response.data?.error) {
+      console.error('[IMAGE META ERROR]', JSON.stringify(response.data.error));
+    }
+  } catch (err) {
+    const detail = err.response?.data ? JSON.stringify(err.response.data) : err.message;
+    console.error('[IMAGE SEND FAILED]', detail);
+  }
+}
+
+module.exports = { downloadAudio, downloadImage, transcribe, synthesize, uploadAudio, sendAudioMessage, sendImageMessage, getMedicineSignedUrl };
 
 if (require.main === module) {
   require('dotenv').config();
